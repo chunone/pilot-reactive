@@ -7,15 +7,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PubSub {
+
     public static void main(String[] args) {
 
-        System.out.println("Start");
+        System.out.println("main Start..");
 
         Publisher<Integer> pub = new Publisher<Integer>(){
 
             @Override
             public void subscribe(Subscriber<? super Integer> sub) {
-
+                System.out.println("subscribe() ..");
                 Iterable<Integer> iter = Stream.iterate(1, i->i+1).limit(10).collect(Collectors.toList());
 
                 sub.onSubscribe(new Subscription() {
@@ -54,23 +55,23 @@ public class PubSub {
 
             @Override
             public void onSubscribe(Subscription s) {
-                System.out.println("onSubscribe : ");
+                System.out.println("onSubscribe() ");
                 s.request(Long.MAX_VALUE);
             }
 
             @Override
             public void onNext(Integer integer) {
-                System.out.println("onNext : " + integer );
+                System.out.println("onNext() : " + integer );
             }
 
             @Override
             public void onError(Throwable t) {
-                System.out.println("onError : " + t);
+                System.out.println("onError() : " + t);
             }
 
             @Override
             public void onComplete() {
-                System.out.println("onComplete");
+                System.out.println("onComplete() ");
             }
         };
 
